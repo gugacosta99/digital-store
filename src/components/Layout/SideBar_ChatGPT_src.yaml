@@ -1,0 +1,31 @@
+using the following pseudocode, give me a react component with tailwindcss as the styling classes
+
+component TopBar:
+  types:
+    -sideMenu: {
+      icon: string,
+      name: string,
+      url: string
+    }
+
+  styles:
+    -sidebar: height-full, shadow-left-5px
+    -sideMenuItem: flex
+    -sideMenuIcon: width-64px, border-none, background-color-white, font-color-orange
+    -sideMenuName: border-none, background-color-white, font-color-orange, {!fullSidebar && 'display-none'}
+
+  props:
+    - fullSidebar: boolean
+    - sideMenu: sideMenu
+    - setPage: method
+
+  method:
+    - changePage (page: string): 
+      -call: setPage(page)
+  
+  render:
+    ul(style=sideBar):
+      each menu in sideMenu:
+        li(style=sideMenuItem):
+          button(onClick=changePage(menu.url) style=sideMenuIcon): menu.icon
+          button(onClick=changePage(menu.url) style=sideMenuName): menu.name

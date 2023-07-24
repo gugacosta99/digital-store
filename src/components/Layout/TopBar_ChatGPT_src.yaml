@@ -1,0 +1,27 @@
+using the following pseudocode, give me a react component with tailwindcss as the styling classes
+
+component TopBar:
+  styles:
+    -topBar: width-full, height-74, flex, justify-around, align-center, shadow-bottom-5px
+    -left-side: margin-left-14
+    -img: width-225, height-50
+    -right-side: margin-right-14
+    -user: border-solid-1px, border-radius-100% (perfect circle), background-color-dark-blue, text-color-white
+    -logout: border-none
+
+  props:
+    - fullSidebar: boolean
+    - setFullSidebar: method
+
+  method:
+    - changeSidebar: 
+        -call: setFullSidebar(!fullSidebar)
+  
+  render:
+    div(style=topBar):
+      div(left-side): 
+        button(onClick=changeSidebar): SB
+        img(style=img): src=`https://picsum.photos/id/${product.id * 10}/250/250`
+      div(style=right-side):
+        button(style=user): US
+        button(style=logout): LO

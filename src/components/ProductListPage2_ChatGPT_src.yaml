@@ -1,0 +1,61 @@
+using the following pseudocode, give me a react component with tailwindcss as the styling classes
+
+component ProductListPage2:
+  types:
+    - Product: {
+        id: number,
+        name: string,
+        brand: string,
+        status: string,
+        img: string,
+        creationDate: string
+      }
+
+  styles:
+    -container: align-center, width 1300px
+    -title: bold, size-30px
+    -filter-container: flex, space-between
+    -filter: flex
+    -search-filter input-text: border solid 1px, border-left-radius 5px, height 40px, margin-right 0px
+    -search-filter button: border solid 1px, border-right-radius 5px, height 40px, margin-left 0px, font bold, font-color white, background-color orange
+    -status-filter: border solid 1px, border-radius 5px height 40px
+    -createProduct: border solid 1px, border-radius 5px height 40px, width 250px, padding-up-down 9px, padding-left-right 14px, font bold, font-color white, background-color orange
+    -productList: grid 3x3
+    -card: border solid 1px, border-radius 5px, hover-shadow 10px
+
+  props:
+    - productList: [Product]
+
+  state:
+    - searchbar: string = ''
+    - status: string = 'All'
+    - filteredProductList: [Product] = productList
+
+  methods:
+    - filterByNameOrBrand: 
+        - setState:
+          - filteredProductList: filter props.productList by (this.name includes ${searchbar} or this.brand includes ${searchbar})
+    - filterByStatus: 
+        - setState:
+          - filteredProductList: filter props.productList by (this.status === ${status})
+          - call: filterByNameOrBrand()
+    - createProduct: do nothing
+  
+  render:
+    div(style=container):
+      h2(style=title): 'Produtos'
+
+      div(style=filter-container):
+        div(style=filter):
+          div(style=search-filter):
+            input-text: 'Search by Name or Brand' (temporary text inside search bar)
+            button(onClick=filterByNameOrBrand): 'search icon'
+          dropdown-input(style=status-filter onChange=filterByStatus): 'All'(deafult), 'Active', 'Inactive'
+        button(style=createProduct onClick=createProduct): '+ Create Product'
+
+      div(style=productList):
+        each product in filteredProductList:
+          div(style=card):
+            p: "Name: " + product.name
+            p: "Brand: " + product.brand
+            p: "status: " + product.status
