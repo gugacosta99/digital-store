@@ -1,0 +1,53 @@
+using the following pseudocode, give me a react component with tailwindcss as the styling classes
+
+component ProductPagePagination:
+
+  styles:
+    - container: flex, justify-center, align-center
+    - btn: margin-right 4px, margin-left 4px, border-radius 2px, border-color primary, width 10px, height 10px, text-color primary, background-color white, hover-background-color primary_light
+    - center-btn: margin-right 4px, margin-left 4px, border-radius 2px, border-color primary, width 10px, height 10px, text-color white, background-color primary
+
+  props:
+    - fullProductList: []
+    - sePageProductList: method
+
+  state:
+    - pageNumber: number => initially set to ceiling(fullProductList.length / 12)
+    - currentPage: number => initially set to 1
+    - buttons: [] => initially set by calling changeButtons()
+
+  useEffect:
+    - function:
+      - call setButtons( changeButtons() )
+      - create an array 'returnArray' with elements from fullProductList[(currentPage-1)*12] up to fullProductList[((currentPage-1)*12) + 11], unless the array ends before then
+      - call setPageProductList( returnArray )
+    - dependencies: currentPage
+
+  methods:
+    - changeButtons:
+      - creates an array with with numbers from currentPage-2 up to currentPage+2
+      - removes every number < 1 from the array
+      - removes every number > pageNumber from the array
+      - if the first element is > 1, add a '...' element to the beginning of the array
+      - if the last element is < pageNumber, add a '...' element to the end of the array
+      - add '<' to the beginning and '>' to the end of the array
+      - return the array
+    - changePage: 
+      - parameter: newPgNum
+      - call setCurrentPage( newPgNum )
+  
+  render:
+    div(style=container):
+      each btn in buttons:
+        button: btn
+          - if btn == '...', no onClick action
+          - else-if btn == '<'
+            - if currentPage > 1, onClick = changePage(btn-1)
+            - else no onClick action
+          - else-if btn == '>'
+            - if currentPage < pageNumber, onClick = changePage(btn+1)
+            - else no onClick action
+          - else-if btn === currentPage, no onClick action
+          - else onClick = changePage(btn)
+          - if btn === currentPage, style = center-btn
+          - else style = btn

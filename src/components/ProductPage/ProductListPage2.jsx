@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { FaSearch, FaPlus } from 'react-icons/fa';
 import ProductCard from './ProductCard';
+import ProductPagePagination from './ProductPagePagination';
 
 const ProductListPage2 = ({ productList }) => {
   const [searchbar, setSearchbar] = useState('');
   const [status, setStatus] = useState('All');
   const [filteredProductList, setFilteredProductList] = useState(productList);
+  const [pageProductList, setPageProductList] = useState([]);
 
   const filterByNameOrBrand = () => {
     const filteredList = productList.filter(
@@ -33,13 +35,17 @@ const ProductListPage2 = ({ productList }) => {
     filterByStatus();
   }, [status]);
 
+/*   useEffect(() => {
+    setPageProductList(filteredProductList);
+  }, [filteredProductList]) */
+
   const createProduct = () => {
     // Do nothing for now
   };
 
   return (
     <div className="container mx-auto px-4 pt-10" style={{ maxWidth: '1300px' }}>
-      <h2 className="font-bold text-3xl mb-4">Produtos</h2>
+      <h2 className="font-bold text-3xl mb-4 text-secondary">Produtos</h2>
 
       <div className="flex flex-col items-center md:flex-row  md:justify-between mb-7 pb-7 mt-14 border-b-2 border-solid">
         <div className="flex">
@@ -47,12 +53,12 @@ const ProductListPage2 = ({ productList }) => {
             <input
               type="text"
               placeholder="Search by Name or Brand"
-              className="border border-solid border-orange-500 rounded-l px-4 h-10 mr-0"
+              className="border border-solid border-primary rounded-l px-4 h-10 mr-0"
               value={searchbar}
               onChange={(e) => setSearchbar(e.target.value)}
             />
             <button
-              className="border border-solid border-r-0 border-orange-500 rounded-r h-10 px-4 font-bold text-white bg-orange-500"
+              className="border border-solid border-r-0 border-primary rounded-r h-10 px-4 font-bold text-white bg-primary"
               onClick={filterByNameOrBrand}
             >
               <FaSearch />
@@ -70,7 +76,7 @@ const ProductListPage2 = ({ productList }) => {
         </div>
         <div className='md:h-10 border-solid border-l-2'></div>
         <button
-          className="border border-solid rounded px-4 h-10 w-80 mt-2 md:mt-0 md:w-48 font-bold text-white bg-orange-500 hover:bg-orange-100 hover:text-orange-500 border-orange-500 transition duration-300"
+          className="border border-solid rounded px-4 h-10 w-80 mt-2 md:mt-0 md:w-48 font-bold text-white bg-primary hover:bg-primary_light hover:text-primary border-primary transition duration-300"
           onClick={createProduct}
         >
           <div className="flex items-center justify-center md:justify-evenly"><FaPlus />Create Product</div>
@@ -78,10 +84,15 @@ const ProductListPage2 = ({ productList }) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredProductList.map((product) => (
+        {pageProductList.map((product) => (
           <ProductCard key={product.id} product={product}/>
         ))}
       </div>
+
+      <ProductPagePagination
+        fullProductList={filteredProductList}
+        setPageProductList={setPageProductList}
+      />
     </div>
   );
 };

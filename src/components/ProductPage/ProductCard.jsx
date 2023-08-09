@@ -10,14 +10,14 @@ const ProductCard = ({ product }) => {
                 alt={product.name}
             />
             <div className="data h-1/2 m-2 flex flex-col justify-between">
-                <p className="name-top text-blue-900 text-lg font-bold">{product.name}</p>
+                <p className="name-top text-secondary text-lg font-bold">{product.name}</p>
                 <div className="date-status flex justify-around items-center w-1/2">
-                    <p className="date text-blue-900 text-sm font-bold">{product.creationDate}</p>
+                    <p className="date text-secondary text-sm font-bold">{product.creationDate}</p>
                     <p className={`status text-white rounded-full px-2 py-1 ${product.status === 'Active' ? 'bg-green-500' : 'bg-yellow-800'}`}>
                         {product.status}
                     </p>
                 </div>
-                <button className="w-20 edit text-orange-600 no-underline hover:underline flex justify-evenly items-center"><FaSearch/>Edit</button>
+                <button className="w-20 edit text-primary no-underline hover:underline flex justify-evenly items-center"><FaSearch/>Edit</button>
             </div>
         </div>
     );

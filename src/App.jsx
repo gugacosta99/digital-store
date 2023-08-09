@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import ProductListPage2 from './components/ProductListPage2';
+import ProductListPage2 from './components/ProductPage/ProductListPage2';
 import Layout from './components/Layout/Layout';
 import products from './data/data.js';
 
