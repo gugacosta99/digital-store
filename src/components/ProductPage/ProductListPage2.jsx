@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { FaSearch, FaPlus } from 'react-icons/fa';
 import ProductCard from './ProductCard';
 import ProductPagePagination from './ProductPagePagination';
+import productList from '../../data/productData.js';
 
-const ProductListPage2 = ({ productList }) => {
+const ProductListPage2 = () => {
   const [searchbar, setSearchbar] = useState('');
   const [status, setStatus] = useState('All');
   const [filteredProductList, setFilteredProductList] = useState(productList);
@@ -99,12 +100,3 @@ const ProductListPage2 = ({ productList }) => {
 
 export default ProductListPage2;
 
-          /* <div
-            key={product.id}
-            className="w-96 h-72 border border-solid rounded p-4 hover:shadow-lg relative"
-          >
-            <img className="absolute inset-0 w-full h-3/5 object-cover" src={`https://picsum.photos/id/${product.id + (product.id * 10)}/380/150`}></img>
-            <p>Name: {product.name}</p>
-            <p>Brand: {product.brand}</p>
-            <p>Status: {product.status}</p>
-          </div> */

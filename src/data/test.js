@@ -1,4 +1,7 @@
-const products = []
+
+
+const products = require("./productData")
+const orders = require("./orderData")
 
 const randomDates = [
     "22/05/2021",
@@ -115,7 +118,7 @@ const bachelorCourses = [
     "Industrial Design"
 ];
 
-for (let i=0; i < 48; i++){
+/* for (let i=0; i < 48; i++){
     const randomIndex = Math.floor(Math.random() * personNames.length);
     const randomValue = Math.random();
 
@@ -130,4 +133,25 @@ for (let i=0; i < 48; i++){
     products.push(x)
 }
 
-console.log(products)
+console.log(products) */
+
+/* const prodList = products.map(p => {
+    let r = {
+        ...p
+    }
+    let t = r.creationDate.split('/')
+    //console.log(r);
+    //console.log(t);
+    r.creationDate = `${+t[2]}-${t[1] - 1}-${+t[0]}`
+
+    return r
+})
+
+console.log(prodList); */
+
+o = orders[0].items.map(i => {
+    return products.find(p => p.id === i.productID)
+})
+
+//console.log(o);
+

@@ -1,0 +1,170 @@
+using the following pseudocode, give me a react component with tailwindcss as the styling classes
+
+component DateFilter:
+
+  styles:
+    - filterContainer: border-bottom gray-200, 
+    - filterLine: flex, space-between
+    - dropdown: border none, border-bottom-solid, arrow-color primary
+    - calendar: border none, border-bottom-solid, symbol-color primary
+    - dateButtons: flex
+    - btn: border-solid, border-color primary, h-10, margin-left 0px, margin-right 0px
+    - left-button: border-left round
+    - right-button: border-right round
+    - selected-btn: text-color white bg-color primary
+    - unselected-btn: text-color primary bg-color white
+
+    div(style=filterContainer):
+      div(style=filterLine):
+        select(style=dropdown onChange={set brandFilter to value}): placeholder-text "Brand"
+          each brand in [""].concat(brandNames):
+            option(value=brand): brand
+        select(style=dropdown onChange={set productFilter to value}): placeholder-text "Product"
+          each product in productFilterOptions:
+            option(value=product): product
+        select(style=dropdown onChange={set paymentFilter to value}): placeholder-text "Payment Method"
+          each PM in [""].concat(paymentMethods):
+            option(value=PM): PM
+        select(style=dropdown onChange={set statusFilter to value}): placeholder-text "Status"
+          each status in [""].concat(statusList):
+            option(value=status): status
+      div(style=filterLine):
+        text: "FIlter by Period"
+        input(type=date style=calendar onChange={set startDateFilter to value+" 00:00"}): placeholder-text "Start Date"
+        input(type=date style=calendar onChange={set endDateFilter to value+" 23:59"}): placeholder-text "End Date"
+        div(style=dateButtons):
+          button(style=btn left-button dateFilter==='today' ? selected-btn : unselected-btn onClick={set dateFilter to "today"}): Today
+          button(style=btn dateFilter==='week' ? selected-btn : unselected-btn onClick={set dateFilter to "week"}): This Week
+          button(style=btn right-button dateFilter==='month' ? selected-btn : unselected-btn onClick={set dateFilter to "month"}): This Month
+        button(style=unselected-btn onCLick={call clearFilters()}): Clear Filters
+
+  import: 
+    - brandNames from '../../data/brandData'
+    - productList from '../../data/productData.js'
+    - statusList from '../../data/statusData.js'
+    - paymentMethods from '../../data/paymentMethodData.js'
+
+  props:
+    - fullOrderList: []
+    - setFilteredOrderList: method
+
+  state:
+    - brandFilter: string, initally set to ""
+    - productFilter: string, initally set to ""
+    - productFilterOptions: []. initially set to [""].concat(productList.map(e => e.name))
+    - paymentFilter: string, initally set to ""
+    - statusFilter: string, initally set to ""
+    - startDateFilter: string, initally set to "2023-08-09 00:00"
+    - endDateFilter: string, initally set to "2023-08-09 23:59"
+    - dateFilter: string, initally set to "today"
+
+  useEffect:
+    - function:
+      - call applyFilter()
+    - dependencies: brandFilter, productFilter, paymentFilter, statusFilter, startDateFilter, endDateFilter
+  useEffect:
+    - function:
+      - set productFilterOptions to [""].concat(productList.filter(e => e.brand === brandFilter))
+    - dependencies: brandFilter
+  useEffect:
+    - function:
+      - if dateFilter === "today": set startDateFilter to "2023-08-09 00:00"
+      - else if dateFilter === "week": set startDateFilter to "2023-08-03 00:00"
+      - else if dateFilter === "month": set startDateFilter to "2023-07-10 00:00"
+      - set endDateFilter to "2023-08-09 23:59"
+    - dependencies: dateFilter
+
+  methods:
+    - applyFilter(): 
+      - variable retOrderList: filter fullOrderList
+        - callback parameter: order
+        - variable brand_productBool = call applyFilterBrandProduct(order)
+        - variable paymentBool = call applyFilterPayment(order)
+        - variable statusBool = call applyFilterStatus(order)
+        - variable startDateBool = call applyFilterStartDate(order)
+        - variable endDateBool = call applyFilterEndDate(order)
+        - return brand_productBool && paymentBool && statusBool && startDateBool && endDateBool
+      - call setFilteredOrderList(retOrderList)
+    - applyFilterBrandProduct(order):
+      - if brandFilter === "" && productFilter === "":
+        - return true
+      - else:
+        - variable productItems: map order.items
+          - callback parameter: item
+          - return productList.find 
+            - callback parameter: product
+            - return product.id === item.productID
+        - variable returnBool: true
+        - if brandFilter != ""
+          - if !(productItems.find(pi => pi.brand === brandFilter))
+            - returnBool = false
+        - if returnBool && productFilter != ""
+          - if !(productItems.find(pi => pi.name === productFilter))
+            - returnBool = false
+        -return returnBool
+    - applyFilterPayment(order):
+      - if paymentFilter === "":
+        - return true
+      - else:
+        - return order.paymentMethod === paymentFilter
+    - applyFilterStatus(order):
+      - if statusFilter === "":
+        - return true
+      - else:
+        - return order.status === statusFilter
+    - applyFilterStartDate(order):
+      - variable startDate = new Date(startDateFilter)
+      - variable orderDate = convert order.date from format dd/mm/yyyy to yyyy-mm-dd, still as a string
+      - set orderDate = new Date(orderDate)
+      - return orderDate >= startDate
+    - applyFilterEndDate(order):
+      - variable endDate = new Date(endDateFilter)
+      - variable orderDate = convert order.date from format dd/mm/yyyy to yyyy-mm-dd, still as a string
+      - set orderDate = new Date(orderDate)
+      - return orderDate <= endDate
+    - clearFilters():
+      - set brandFilter to ""
+      - set productFilter to ""
+      - set productFilterOptions to [""].concat(productList.map(e => e.name))
+      - set paymentFilter to ""
+      - set statusFilter to ""
+      - set startDateFilter to "2023-08-09 00:00"
+      - set endDateFilter to "2023-08-09 23:59"
+      - set dateFilter to "today"
+
+  render:
+    div(style=filterContainer):
+      div(style=filters):
+        dropdown-input(style=dropdown onChange={set brandFilter to value}): placeholder-text "Brand"
+          each brand in [""].concat(brandNames):
+            option(value=brand): brand
+        dropdown-input(style=dropdown onChange={set productFilter to value}): placeholder-text "Product"
+          each product in productFilterOptions:
+            option(value=product): product
+        dropdown-input(style=dropdown onChange={set paymentFilter to value}): placeholder-text "Payment Method"
+          each PM in [""].concat(paymentMethods):
+            option(value=PM): PM
+        dropdown-input(style=dropdown onChange={set statusFilter to value}): placeholder-text "Status"
+          each status in [""].concat(statusList):
+            option(value=status): status
+      div(style=filters):
+        text: "FIlter by Period"
+        date-input(style=calendar onChange={set startDateFilter to value+" 00:00"}): placeholder-text "Start Date"
+        date-input(style=calendar onChange={set endDateFilter to value+" 23:59"}): placeholder-text "End Date"
+        div(style=dateButtons):
+          button(style=left-button dateFilter==='today' ? selected-btn : unselected-btn onClick={set dateFilter to "today"}): Today
+          button(style=center-button dateFilter==='week' ? selected-btn : unselected-btn onClick={set dateFilter to "week"}): This Week
+          button(style=right-button dateFilter==='month' ? selected-btn : unselected-btn onClick={set dateFilter to "month"}): This Month
+        button(style=unselected-btn onCLick={call clearFilters()}): Clear Filters
+
+
+- fullOrderList.filter(order => {
+        let productOrder = order.items.map(i => {
+          prod = productList.find(p => p.id === i.productID)
+        })
+
+        productBool = (productFilter === "") || (productOrder.find(po => po.name === productFilter))
+        brandBool = (brandFilter === "") || (productOrder.find(po => po.brand === brandFilter))
+
+        return (
+      })

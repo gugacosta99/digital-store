@@ -1,23 +1,24 @@
-import { FaSearch, FaPlus } from 'react-icons/fa';
+import { FaBox } from 'react-icons/fa';
+import { IoIosPie } from 'react-icons/io';
 
 const LayoutData = [
     {
-        icon: <FaSearch/>,
+        icon: <IoIosPie/>,
+        name: 'Dashboard',
+        url: 'dashboard'
+    },
+    {
+        icon: <FaBox/>,
         name: 'Products',
         url: 'productsList'
     },
     {
-        icon: <FaSearch/>,
+        icon: <FaBox/>,
         name: 'Products',
         url: 'productsList'
     },
     {
-        icon: <FaSearch/>,
-        name: 'Products',
-        url: 'productsList'
-    },
-    {
-        icon: <FaSearch/>,
+        icon: <FaBox/>,
         name: 'Products',
         url: 'productsList'
     }

@@ -4,9 +4,24 @@ import TopBar from './TopBar';
 import SideBar from './Sidebar';
 import LayoutData from '../../data/LayoutData';
 
-const Layout = ({ children }) => {
+import ProductListPage2 from '../ProductPage/ProductListPage2';
+import Dashboard from '../DashBoard/Dashboard';
+
+const Layout = () => {
     const [fullSidebar, setFullSidebar] = useState(false)
     const [page, setPage] = useState(LayoutData[0].url)
+
+    let currentPage;
+    switch (page) {
+        case 'productsList':
+            currentPage = <ProductListPage2/>
+            break;
+        case 'dashboard':
+            currentPage = <Dashboard/>
+            break;
+        default:
+            currentPage = <div></div>
+    }
 
     return (
         <div className="flex flex-col h-screen relative">
@@ -24,7 +39,7 @@ const Layout = ({ children }) => {
                 />
                 <main className="flex-1 overflow-y-auto bg-gray-100 p-4">
                     <div className=''>
-                        {children}
+                        {currentPage}
                     </div>
                 </main>
             </div>
