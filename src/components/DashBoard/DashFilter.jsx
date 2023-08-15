@@ -14,8 +14,6 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
     const [endDateFilter, setEndDateFilter] = useState('2023-08-09 23:59');
     const [dateFilter, setDateFilter] = useState('today');
 
-    console.log(startDateFilter)
-
     useEffect(() => {
         applyFilter();
     }, [brandFilter, productFilter, paymentFilter, statusFilter, startDateFilter, endDateFilter]);
@@ -71,7 +69,7 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
         if (paymentFilter === '') {
             return true;
         } else {
-            return order.paymentMethod === paymentFilter;
+            return order.paymentMethod.type === paymentFilter;
         }
     };
 
@@ -85,13 +83,15 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
 
     const applyFilterStartDate = order => {
         const startDate = new Date(startDateFilter);
-        const orderDate = new Date(order.date.split('/').reverse().join('-'));
+        const orderDate = new Date(`${order.date.split('/').reverse().join('-')} ${order.time}`);
+        //console.log(`${orderDate} >= ${startDate} ?`);
         return orderDate >= startDate;
     };
 
     const applyFilterEndDate = order => {
         const endDate = new Date(endDateFilter);
-        const orderDate = new Date(order.date.split('/').reverse().join('-'));
+        const orderDate = new Date(`${order.date.split('/').reverse().join('-')} ${order.time}`);
+        //console.log(`${orderDate} <= ${endDate} ?`);
         return orderDate <= endDate;
     };
 
@@ -118,8 +118,8 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
                     <option value="" disabled>
                         Brand
                     </option>
-                    {['', ...brandNames].map(brand => (
-                        <option key={brand} value={brand}>
+                    {['', ...brandNames].map((brand, index) => (
+                        <option key={index} value={brand}>
                             {brand}
                         </option>
                     ))}
@@ -133,8 +133,8 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
                     <option value="" disabled>
                         Product
                     </option>
-                    {['', ...productFilterOptions].map(product => (
-                        <option key={product} value={product}>
+                    {['', ...productFilterOptions].map((product, index) => (
+                        <option key={index} value={product}>
                             {product}
                         </option>
                     ))}
@@ -148,8 +148,8 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
                     <option value="" disabled>
                         Payment Method
                     </option>
-                    {['', ...paymentMethods].map(paymentMethod => (
-                        <option key={paymentMethod} value={paymentMethod}>
+                    {['', ...paymentMethods].map((paymentMethod, index) => (
+                        <option key={index} value={paymentMethod}>
                             {paymentMethod}
                         </option>
                     ))}
@@ -163,8 +163,8 @@ const DashFilter = ({ fullOrderList, setFilteredOrderList }) => {
                     <option value="" disabled>
                         Status
                     </option>
-                    {['', ...statusList].map(status => (
-                        <option key={status} value={status}>
+                    {['', ...statusList].map((status, index) => (
+                        <option key={index} value={status}>
                             {status}
                         </option>
                     ))}
