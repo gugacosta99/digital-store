@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaSearch, FaPlus } from 'react-icons/fa';
+import { BiSolidPencil } from 'react-icons/bi';
 
 const ProductCard = ({ product }) => {
     return (
@@ -17,7 +18,7 @@ const ProductCard = ({ product }) => {
                         {product.status}
                     </p>
                 </div>
-                <button className="w-20 edit text-primary no-underline hover:underline flex justify-evenly items-center"><FaSearch/>Edit</button>
+                <button className="w-20 edit text-primary no-underline hover:underline flex justify-evenly items-center"><BiSolidPencil/>Edit</button>
             </div>
         </div>
     );
